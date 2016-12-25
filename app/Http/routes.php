@@ -20,10 +20,10 @@ function resource($uri, $controller, $only = [])
   global $app;
   $crud_routes = [
     'index' => ['GET', ''],
-    'create' => ['GET', '/create'],
+    // 'create' => ['GET', ''],
     'store' => ['POST', ''],
     'show' => ['GET', '/{id}'],
-    'edit' => ['GET', '/{id}/edit'],
+    // 'edit' => ['GET', '/{id}/edit'],
     'update' => ['PUT', '/{id}'],
     'update_' => ['PATCH', '/{id}'],
     'destroy' => ['DELETE', '/{id}']
@@ -33,7 +33,7 @@ function resource($uri, $controller, $only = [])
     $action = trim($action, '_');
     if (!in_array($action, $only)) {
       list($method, $path) = $params;
-      $app->$method($action . $path, [
+      $app->$method($uri.$path, [
         'as' => $uri . '.' . $action, 'uses' => $controller . '@' . $action
       ]);
     }
