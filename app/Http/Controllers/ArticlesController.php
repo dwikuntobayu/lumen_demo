@@ -11,9 +11,12 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    //this index and can query via url
+    //e.g: http://localhost:8000/?per_page=1&page=2
+    public function index(Request $request)
     {
-        return Article::paginate(2);
+      ($request->has('per_page')) ? $articles = Article::paginate($request->per_page) : $articles = Article::paginate(2);
+      return $articles;
     }
 
     /**
@@ -36,7 +39,7 @@ class ArticlesController extends Controller
      */
     public function show($id)
     {
-        return Article::find($id);
+      return Article::find($id);
     }
 
     /**
