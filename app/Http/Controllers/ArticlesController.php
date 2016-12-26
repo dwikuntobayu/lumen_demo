@@ -11,13 +11,17 @@ class ArticlesController extends Controller
 {
     public function __construct(JWTAuth $auth, Request $request) 
     {
-        //get token from client header request
-        //Authorization : Bearer <your_token>
-        // dd($auth->getToken());
+      //for create token JWT run 
+      //curl -X POST -F 'email=dwikunto@geeksfarm.com' -F 'password=12345678' http://localhost:8000/auth/login
+      $this->middleware('jwt.auth', ['only'=>['store', 'update', 'delete']]);
 
-        //get user token from server that current active
-        // $user = User::where('email', 'dwikunto@geeksfarm.com')->first();
-        // dd($auth->fromUser($user));
+      //get token from client header request
+      //Authorization : Bearer <your_token>
+      // dd($auth->getToken());
+
+      //get user token from server that current active
+      // $user = User::where('email', 'dwikunto@geeksfarm.com')->first();
+      // dd($auth->fromUser($user));
     }
 
     /**
@@ -45,7 +49,6 @@ class ArticlesController extends Controller
         'title'=>'required',
         'content'=>'required'
       ]);
-      // dd(Auth::user());
       $article= new Article($request->all());
       ($article=Auth::user()->articles()->save($article)) ? $status='success create data' : $status='fails create data' ;
       return response()->json(['status'=>$status, 'article'=>$article]);

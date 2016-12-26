@@ -36,9 +36,6 @@ class AuthServiceProvider extends ServiceProvider
                 // return User::where('api_token', $request->input('api_token'))->first();
             // }
         // });
-        
-        //this for handle ArticlePolicy
-        Gate::policy(Article::class, ArticlePolicy::class);
 
         //this service for JWT
         $this->app['auth']->viaRequest('api', function ($request) {
