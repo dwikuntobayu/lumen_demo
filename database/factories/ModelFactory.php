@@ -15,6 +15,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password'=>Crypt::encrypt('12345678')
+        // 'password'=>Crypt::encrypt('12345678')
+        'password'=>app('hash')->make('12345678'),
     ];
 });
