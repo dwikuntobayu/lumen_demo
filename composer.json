@@ -8,7 +8,9 @@
         "php": ">=5.6.4",
         "laravel/lumen-framework": "5.3.*",
         "vlucas/phpdotenv": "~2.2",
-        "flipbox/lumen-generator": "^5.3"
+        "flipbox/lumen-generator": "^5.3",
+        "tymon/jwt-auth": "1.0.0-beta.1",
+        "laravelista/lumen-vendor-publish": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

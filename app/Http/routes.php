@@ -14,6 +14,9 @@
 $app->get('/', ['uses' => 'ArticlesController@index']);
 resource('articles', 'ArticlesController');
 
+$app->POST('/auth/login', 'AuthController@loginPost');
+
+
 ##function for handle resource routes
 function resource($uri, $controller, $only = [])
 {

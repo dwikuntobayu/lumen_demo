@@ -3,9 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Article;
+use App\Article, App\User;
+use Auth;
+use Tymon\JWTAuth\JWTAuth;
+
 class ArticlesController extends Controller
 {
+    public function __construct(JWTAuth $auth, Request $request) 
+    {
+        //get token from client header request
+        //Authorization : Bearer <your_token>
+        // dd($auth->getToken());
+
+        //get user token from server that current active
+        // $user = User::where('email', 'dwikunto@geeksfarm.com')->first();
+        // dd($auth->fromUser($user));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +41,13 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
-      ($article=Article::create($request->all())) ? $status='success create data' : $status='fails create data' ;
+      $this->validate($request, [
+        'title'=>'required',
+        'content'=>'required'
+      ]);
+      // dd(Auth::user());
+      $article= new Article($request->all());
+      ($article=Auth::user()->articles()->save($article)) ? $status='success create data' : $status='fails create data' ;
       return response()->json(['status'=>$status, 'article'=>$article]);
     }
 
@@ -53,6 +73,10 @@ class ArticlesController extends Controller
     // e.g : curl -H "Content-Type: application/x-www-form-urlencoded" -X PUT -d "title=Robana ya rob&content=lorem ipsum dolor camet" http://localhost:8000/articles/2
     public function update(Request $request, $id)
     {
+      $this->validate($request, [
+        'title'=>'required',
+        'content'=>'required'
+      ]);
       $article=Article::find($id);
       ($article->update($request->all())) ? $status = 'success update article' : $status = 'fails update article';
       return response()->json(['status'=>$status, 'article'=>$article]);
