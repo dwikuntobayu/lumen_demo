@@ -10,10 +10,11 @@
 | database. Just tell the factory how a default model should look.
 |
 */
-
+use Illuminate\Support\Facades\Crypt;
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'email' => $faker->email,
+        'email' => $faker->unique()->safeEmail,
+        'password'=>Crypt::encrypt('12345678')
     ];
 });
