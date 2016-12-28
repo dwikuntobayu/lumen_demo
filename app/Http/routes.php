@@ -12,33 +12,38 @@
 */
 
 $app->get('/', ['uses' => 'ArticlesController@index']);
-resource('articles', 'ArticlesController');
+$app->post('/auth/login', ['uses' => 'AuthController@loginPost']);
 
-$app->POST('/auth/login', 'AuthController@loginPost');
+// resource('articles', 'ArticlesController');
+$app->get('articles/', ['as'=>'articles.index', 'uses' => 'ArticlesController@index']);
+$app->post('articles/', ['as'=>'articles.store', 'uses'=> 'ArticlesController@store']);
+$app->get('articles/{id}', ['as'=>'articles.show', 'uses' => 'ArticlesController@show']);
+$app->put('articles/{id}', ['as'=>'articles.update', 'uses' => 'ArticlesController@update']);
+$app->patch('articles/{id}', ['as'=>'articles.update', 'uses' => 'ArticlesController@update']);
+$app->delete('articles/{id}', ['as'=>'articles.delete', 'uses' => 'ArticlesController@destroy']);
 
-
+##below function will not compatible with tdd
 ##function for handle resource routes
-function resource($uri, $controller, $only = [])
-{
-  global $app;
-  $crud_routes = [
-    'index' => ['GET', ''],
-    // 'create' => ['GET', ''],
-    'store' => ['POST', ''],
-    'show' => ['GET', '/{id}'],
-    // 'edit' => ['GET', '/{id}/edit'],
-    'update' => ['PUT', '/{id}'],
-    'update_' => ['PATCH', '/{id}'],
-    'destroy' => ['DELETE', '/{id}']
-  ];
+// function resource($uri, $controller, $only = [])
+// {
+  // global $app;
 
-  foreach($crud_routes as $action => $params) {
-    $action = trim($action, '_');
-    if (!in_array($action, $only)) {
-      list($method, $path) = $params;
-      $app->$method($uri.$path, [
-        'as' => $uri . '.' . $action, 'uses' => $controller . '@' . $action
-      ]);
-    }
-  }
-}
+  // $crud_routes = [
+    // 'index' => ['GET', ''],
+    // 'store' => ['POST', ''],
+    // 'show' => ['GET', '/{id}'],
+    // 'update' => ['PUT', '/{id}'],
+    // 'update_' => ['PATCH', '/{id}'],
+    // 'destroy' => ['DELETE', '/{id}']
+  // ];
+// 
+  // foreach($crud_routes as $action => $params) {
+    // $action = trim($action, '_');
+    // if (!in_array($action, $only)) {
+      // list($method, $path) = $params;
+      // $app->$method($uri.$path, [
+        // 'as' => $uri . '.' . $action, 'uses' => $controller . '@' . $action
+      // ]);
+    // }
+  // }
+// }

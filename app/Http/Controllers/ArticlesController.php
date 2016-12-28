@@ -62,7 +62,7 @@ class ArticlesController extends Controller
      */
     public function show($id)
     {
-      return Article::find($id);
+      return (count(Article::find($id))) ? Article::find($id) : ['info'=>'article not found'];
     }
 
     /**
@@ -93,7 +93,10 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-      (Article::find($id)->delete()) ? $status='success delete article' : $status='fails delete article';
+      if ($article = Article::find($id)) 
+        (Article::find($id)->delete()) ? $status='success delete article' : $status='fails delete article';
+      else 
+        $status = 'article not found';
       return response()->json(['status'=>$status]);
     }
 }
